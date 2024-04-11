@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
-@RestController("/access")
+@RestController
+@RequestMapping("/access")
 class AccessController(
     private val jwtService: JwtService,
     private val accessService: AccessService
@@ -22,7 +24,7 @@ class AccessController(
         @RequestHeader("Authorization") token: String,
         @RequestBody accessRequest: AccessRequest
     ) = accessService.createAccess(
-        userEmail = jwtService.extractUsername(token),
+        userEmail = jwtService.extractUsername(token.substring(7)),
         accessRequest = accessRequest
     )
 }

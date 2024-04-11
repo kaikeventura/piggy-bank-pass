@@ -15,6 +15,10 @@ data class AccessEntity(
     val login: String,
     val password: String,
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    val userEntity: UserEntity,
+
     @CreationTimestamp
     @Column(updatable = false)
     val createdAt: LocalDateTime? = null,

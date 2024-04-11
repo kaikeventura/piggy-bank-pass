@@ -20,6 +20,9 @@ data class UserEntity(
     @Enumerated(EnumType.STRING)
     val role: Role,
 
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "userEntity", fetch = FetchType.LAZY)
+    val accesses: List<AccessEntity> = emptyList(),
+
     @CreationTimestamp
     @Column(updatable = false)
     val createdAt: LocalDateTime? = null,
