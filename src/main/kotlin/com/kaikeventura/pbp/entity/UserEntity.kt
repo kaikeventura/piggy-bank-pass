@@ -21,6 +21,7 @@ data class UserEntity(
     val role: Role,
 
     @CreationTimestamp
+    @Column(updatable = false)
     val createdAt: LocalDateTime? = null,
 
     @UpdateTimestamp
