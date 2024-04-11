@@ -1,6 +1,7 @@
 package com.kaikeventura.pbp.service
 
 import com.kaikeventura.pbp.controller.request.AccessRequest
+import com.kaikeventura.pbp.controller.response.AccessResponse
 import com.kaikeventura.pbp.entity.AccessEntity
 import com.kaikeventura.pbp.repository.AccessRepository
 import com.kaikeventura.pbp.repository.UserRepository
@@ -21,12 +22,21 @@ class AccessService(
         accessRequest.let {
             AccessEntity(
                 account = it.account,
-                login = it.login,
+                login = encoderService.encrypt(it.login),
                 password = encoderService.encrypt(it.password),
-                userEntity = user
+                user = user
             )
         }.let {
             accessRepository.save(it)
         }
     }
+
+    fun getAllAccessByUser(userEmail: String): List<AccessResponse> =
+        accessRepository.findAllByUserEmail(userEmail).map {
+            AccessResponse(
+                account = it.account,
+                login = encoderService.decrypt(it.login),
+                password = encoderService.decrypt(it.password)
+            )
+        }
 }

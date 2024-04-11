@@ -18,7 +18,7 @@ data class AccessEntity(
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    val userEntity: UserEntity,
+    val user: UserEntity,
 
     @CreationTimestamp
     @Column(updatable = false)

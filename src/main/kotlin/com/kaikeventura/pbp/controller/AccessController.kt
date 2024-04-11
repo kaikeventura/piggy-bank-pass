@@ -4,6 +4,7 @@ import com.kaikeventura.pbp.configuration.JwtService
 import com.kaikeventura.pbp.controller.request.AccessRequest
 import com.kaikeventura.pbp.service.AccessService
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -26,5 +27,13 @@ class AccessController(
     ) = accessService.createAccess(
         userEmail = jwtService.extractUsername(token.substring(7)),
         accessRequest = accessRequest
+    )
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    fun getAllAccess(
+        @RequestHeader("Authorization") token: String
+    ) = accessService.getAllAccessByUser(
+        userEmail = jwtService.extractUsername(token.substring(7))
     )
 }

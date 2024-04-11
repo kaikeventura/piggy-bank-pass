@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 import java.util.UUID
 
 @Repository
-interface AccessRepository : JpaRepository<AccessEntity, UUID>
+interface AccessRepository : JpaRepository<AccessEntity, UUID> {
+    fun findAllByUserEmail(email: String): List<AccessEntity>
+}
