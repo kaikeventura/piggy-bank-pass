@@ -7,6 +7,7 @@ import com.kaikeventura.pbp.repository.AccessRepository
 import com.kaikeventura.pbp.repository.UserRepository
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class AccessService(
@@ -34,6 +35,7 @@ class AccessService(
     fun getAllAccessByUser(userEmail: String): List<AccessResponse> =
         accessRepository.findAllByUserEmail(userEmail).map {
             AccessResponse(
+                id = UUID.fromString(it.id),
                 account = it.account,
                 login = encoderService.decrypt(it.login),
                 password = encoderService.decrypt(it.password)
