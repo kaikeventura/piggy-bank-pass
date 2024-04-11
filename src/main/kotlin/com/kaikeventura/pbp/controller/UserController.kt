@@ -14,11 +14,11 @@ class UserController(
     private val authenticationService: AuthenticationService
 ) {
 
-    @PostMapping("/register")
-    fun register(@RequestBody request: RegisterRequest): ResponseEntity<AuthenticationResponse> =
+    @PostMapping("/sign-up")
+    fun signUp(@RequestBody request: RegisterRequest): ResponseEntity<AuthenticationResponse> =
         ResponseEntity.ok(authenticationService.register(request))
 
-    @PostMapping("/authenticate")
-    fun register(@RequestBody request: AuthenticationRequest): ResponseEntity<AuthenticationResponse> =
+    @PostMapping("/sign-on")
+    fun signOn(@RequestBody request: AuthenticationRequest): ResponseEntity<AuthenticationResponse> =
         ResponseEntity.ok(authenticationService.login(request))
 }

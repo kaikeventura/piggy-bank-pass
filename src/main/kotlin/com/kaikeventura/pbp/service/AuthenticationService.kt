@@ -24,9 +24,9 @@ class AuthenticationService(
     fun register(request: RegisterRequest): AuthenticationResponse =
         request.let {
             UserEntity(
-                username = it.username,
+                name = it.username,
                 email = it.email,
-                password = passwordEncoder.encode(it.password),
+                pass = passwordEncoder.encode(it.password),
                 role = Role.USER
             )
         }.let {

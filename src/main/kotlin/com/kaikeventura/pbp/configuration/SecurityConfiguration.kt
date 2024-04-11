@@ -31,7 +31,7 @@ class SecurityConfiguration(
                     .anyRequest().authenticated()
             }
             .httpBasic(Customizer.withDefaults())
-            .sessionManagement { sessionManagementConfig: SessionManagementConfigurer<HttpSecurity?> ->
+            .sessionManagement { sessionManagementConfig ->
                 sessionManagementConfig.sessionCreationPolicy(
                     SessionCreationPolicy.STATELESS
                 )

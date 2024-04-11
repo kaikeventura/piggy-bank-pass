@@ -6,16 +6,16 @@ import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
-import java.util.*
 
 @Entity
+@Table(name = "users")
 data class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    val id: UUID? = null,
-    val username: String,
+    val id: String? = null,
+    val name: String,
     val email: String,
-    val password: String,
+    val pass: String,
 
     @Enumerated(EnumType.STRING)
     val role: Role,
@@ -30,7 +30,7 @@ data class UserEntity(
 
     override fun getAuthorities(): List<SimpleGrantedAuthority> = listOf(SimpleGrantedAuthority(role.name))
 
-    override fun getPassword(): String = password
+    override fun getPassword(): String = pass
 
     override fun getUsername(): String = email
 

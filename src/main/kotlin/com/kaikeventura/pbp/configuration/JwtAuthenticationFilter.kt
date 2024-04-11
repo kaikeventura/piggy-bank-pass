@@ -10,7 +10,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
-
 @Component
 class JwtAuthenticationFilter(
     private val jwtService: JwtService,
@@ -23,7 +22,6 @@ class JwtAuthenticationFilter(
         filterChain: FilterChain
     ) {
         val authHeader = request.getHeader("Authorization")
-        val userEmail: String
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response)
             return
@@ -31,7 +29,7 @@ class JwtAuthenticationFilter(
 
         val jwt = authHeader.substring(7)
 
-        userEmail = jwtService.extractUsername(jwt)
+        val userEmail = jwtService.extractUsername(jwt)
 
         if (SecurityContextHolder.getContext().authentication == null) {
             val userDetails = userDetailsService.loadUserByUsername(userEmail)
