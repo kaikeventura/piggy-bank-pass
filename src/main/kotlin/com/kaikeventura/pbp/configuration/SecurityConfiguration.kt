@@ -26,7 +26,7 @@ class SecurityConfiguration(
         http.csrf { csrf: CsrfConfigurer<HttpSecurity> -> csrf.disable() }
             .authorizeHttpRequests { authorizationManagerRequestMatcherRegistry ->
                 authorizationManagerRequestMatcherRegistry
-                    .requestMatchers("/api/auth/**").hasRole(Role.USER.name)
+//                    .requestMatchers("/api/auth/**").hasRole(Role.USER.name)
                     .requestMatchers("/sign-up", "/sign-on").permitAll()
                     .anyRequest().authenticated()
             }
