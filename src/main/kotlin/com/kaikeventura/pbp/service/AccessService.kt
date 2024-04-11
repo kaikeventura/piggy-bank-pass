@@ -41,4 +41,8 @@ class AccessService(
                 password = encoderService.decrypt(it.password)
             )
         }
+
+    fun deleteById(id: UUID) {
+        accessRepository.deleteById(id)
+    }
 }
