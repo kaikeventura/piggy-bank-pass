@@ -13,4 +13,4 @@ jwt:
   secret: ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength
 
 encryption:
-  key: ThisIsSecretForAES
+  key: ThisIsSecretForAESThisIsSecretFo

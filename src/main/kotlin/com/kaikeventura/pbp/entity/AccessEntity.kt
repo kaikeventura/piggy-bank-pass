@@ -12,6 +12,7 @@ data class AccessEntity(
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: String? = null,
 
+    val account: String,
     val login: String,
     val password: String,
 

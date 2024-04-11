@@ -14,7 +14,10 @@ data class UserEntity(
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: String? = null,
     val name: String,
+
+    @Column(unique = true)
     val email: String,
+
     val pass: String,
 
     @Enumerated(EnumType.STRING)
