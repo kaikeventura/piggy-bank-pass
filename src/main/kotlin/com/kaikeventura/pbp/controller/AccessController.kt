@@ -55,7 +55,11 @@ class AccessController(
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    fun deleteById(
+    fun deleteAccess(
+        @RequestHeader("Authorization") token: String,
         @PathVariable("id") id: UUID
-    ) = accessService.deleteById(id)
+    ) = accessService.deleteAccess(
+        userEmail = jwtService.extractUsername(token.substring(7)),
+        accessId = id
+    )
 }

@@ -6,10 +6,10 @@ import com.kaikeventura.pbp.controller.request.RegisterRequest
 import com.kaikeventura.pbp.controller.response.AuthenticationResponse
 import com.kaikeventura.pbp.entity.Role
 import com.kaikeventura.pbp.entity.UserEntity
+import com.kaikeventura.pbp.error.exception.UserNotFoundException
 import com.kaikeventura.pbp.repository.UserRepository
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -44,7 +44,7 @@ class AuthenticationService(
                 request.password
             )
         )
-        val user = userRepository.findByEmail(request.email) ?: throw UsernameNotFoundException("User $request.email not found")
+        val user = userRepository.findByEmail(request.email) ?: throw UserNotFoundException("User $request.email not found")
 
         return AuthenticationResponse(
             token = jwtService.generateToken(user)

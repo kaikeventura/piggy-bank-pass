@@ -3,9 +3,10 @@ package com.kaikeventura.pbp.service
 import com.kaikeventura.pbp.controller.request.AccessRequest
 import com.kaikeventura.pbp.controller.response.AccessResponse
 import com.kaikeventura.pbp.entity.AccessEntity
+import com.kaikeventura.pbp.error.exception.AccessNotFoundException
+import com.kaikeventura.pbp.error.exception.UserNotFoundException
 import com.kaikeventura.pbp.repository.AccessRepository
 import com.kaikeventura.pbp.repository.UserRepository
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -19,7 +20,7 @@ class AccessService(
         userEmail: String,
         accessRequest: AccessRequest
     ) {
-        val user = userRepository.findByEmail(userEmail) ?: throw UsernameNotFoundException("User $userEmail not found")
+        val user = userRepository.findByEmail(userEmail) ?: throw UserNotFoundException("User $userEmail not found")
         accessRequest.let {
             AccessEntity(
                 account = it.account,
@@ -45,7 +46,7 @@ class AccessService(
                     password = encoderService.encrypt(accessRequest.password),
                 )
             )
-        } ?: throw RuntimeException("Access $accessId not found")
+        } ?: throw AccessNotFoundException("Access $accessId not found")
     }
 
     fun getAllAccessByUser(userEmail: String): List<AccessResponse> =
@@ -58,7 +59,10 @@ class AccessService(
             )
         }
 
-    fun deleteById(id: UUID) {
-        accessRepository.deleteById(id.toString())
+    fun deleteAccess(
+        userEmail: String,
+        accessId: UUID
+    ) {
+        accessRepository.deleteByIdAndUserEmail(accessId.toString(), userEmail)
     }
 }
