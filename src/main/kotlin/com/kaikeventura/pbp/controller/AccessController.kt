@@ -6,6 +6,7 @@ import com.kaikeventura.pbp.service.AccessService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -32,6 +33,18 @@ class AccessController(
         accessRequest = accessRequest
     )
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/{id}")
+    fun updateAccess(
+        @RequestHeader("Authorization") token: String,
+        @PathVariable("id") id: UUID,
+        @RequestBody accessRequest: AccessRequest
+    ) = accessService.updateAccess(
+        userEmail = jwtService.extractUsername(token.substring(7)),
+        accessId = id,
+        accessRequest = accessRequest
+    )
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     fun getAllAccess(
@@ -41,7 +54,7 @@ class AccessController(
     )
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     fun deleteById(
         @PathVariable("id") id: UUID
     ) = accessService.deleteById(id)

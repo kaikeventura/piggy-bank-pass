@@ -32,6 +32,22 @@ class AccessService(
         }
     }
 
+    fun updateAccess(
+        userEmail: String,
+        accessId: UUID,
+        accessRequest: AccessRequest
+    ) {
+        accessRepository.findByIdAndUserEmail(accessId.toString(), userEmail)?.let {
+            accessRepository.save(
+                it.copy(
+                    account = accessRequest.account,
+                    login = encoderService.encrypt(accessRequest.login),
+                    password = encoderService.encrypt(accessRequest.password),
+                )
+            )
+        } ?: throw RuntimeException("Access $accessId not found")
+    }
+
     fun getAllAccessByUser(userEmail: String): List<AccessResponse> =
         accessRepository.findAllByUserEmail(userEmail).map {
             AccessResponse(
@@ -43,6 +59,6 @@ class AccessService(
         }
 
     fun deleteById(id: UUID) {
-        accessRepository.deleteById(id)
+        accessRepository.deleteById(id.toString())
     }
 }
